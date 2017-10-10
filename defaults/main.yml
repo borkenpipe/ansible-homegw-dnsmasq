@@ -39,5 +39,9 @@ dnsmasq_config_permission:
   group: root
   mode: '0644'
 
-## If True, the 'dhcp-optio=option:ntp-server' config ill be enabled.
+## If True, the 'dhcp-optio=option:ntp-server' config will be enabled.
 dnsmasq_ntpd_enabled: False
+
+## If True, dhcp-range=::,,ra-stateless and enable-ra will be enabled.
+dnsmasq_ipv6_ra_enabled: False
+

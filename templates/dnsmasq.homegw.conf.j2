@@ -46,5 +46,7 @@ dhcp-host={{ dhcp['mac'] }},{{ dhcp['ip'] }}
 {% endfor %}
 
 ## ipv6 specific settings ##
+{% if dnsmasq_ipv6_ra_enabled %}
 dhcp-range=::,constructor:{{ dnsmasq_eth_device }},ra-stateless
 enable-ra
+{% endif %}

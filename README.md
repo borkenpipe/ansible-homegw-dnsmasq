@@ -91,6 +91,9 @@ Role Variables
 	dnsmasq_ntpd_enabled: False
 	* If True, the 'dhcp-optio=option:ntp-server,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}' config ill be enabled.
 
+	dnsmasq_ipv6_ra_enabled: False
+	* If True, dhcp-range=::,,ra-stateless and enable-ra will be enabled.
+
 Dependencies
 ------------
 
