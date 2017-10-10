@@ -99,9 +99,26 @@ The 'python-netaddr' package needs to be installed on the ansible host controlle
 Example Playbook
 ----------------
 
-    - hosts: servers
-      roles:
-         - YasuhiroABE.ansible-dnsmasq-homegw
+	  hosts: all
+	  vars:
+	    dnsmasq_eth_device: "eth1"
+	    dnsmasq_ipv4_hostprefix: 192.168.0.1/24
+	    dnsmasq_ipv4_domainname: example.org
+	    dnsmasq_dhcp_domain_search_list:
+	      - "{{ dnsmasq_ipv4_domainname }}"
+	    dnsmasq_dhcp_range:
+	      from_ipaddr: 192.168.0.200
+	      to_ipaddr: 192.168.0.240
+		dnsmasq_ntpd_enabled: True
+		## followings are optional
+	    dnsmasq_local_addresses:
+	      - { hostname: homegw, ip: 192.168.0.1 }
+	      - { hostname: sub1gw, domain: sub1.example.org, ip: 192.168.0.1 }
+	    dnsmasq_subnet_dnsservers:
+	      - { domain: sub1.example.org, server: 192.168.1.53 }
+	    dnsmasq_dhcp_static_addresses:
+	      - { mac: "00:00:00:00:00:10", ip: 192.168.1.10, comment: "device name #10" }
+	      - { mac: "00:00:00:00:00:20", ip: 192.168.1.20 }
 
 License
 -------
