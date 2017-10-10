@@ -37,7 +37,59 @@ Role Variables
 --------------
 
 ### Defaults
+	dnsmasq_eth_device: "br0"
+	* Listen on the specified interface.
 
+	dnsmasq_ipv4_hostprefix: 192.168.0.1/24
+	* A static ip address and netmask preffix on the {{ dnsmasq_eth_device }}.
+
+	dnsmasq_ipv4_domainname: example.org
+	* A domain name for the internal, home, network.
+
+	dnsmasq_dhcp_domain_search_list:
+	  - "{{ dnsmasq_ipv4_domainname }}"
+	* For a domain search list on dhcp clients.
+
+	dnsmasq_dhcp_range:
+	  from_ipaddr: 192.168.0.200
+	  to_ipaddr: 192.168.0.240
+	* IP address will be assigned with this from-to range.
+
+	dnsmasq_external_nameservers:
+	  - 8.8.8.8
+	* This value used for the dnsmasq to resolve DNS request.
+
+	dnsmasq_local_addresses:
+	  - { hostname: homegw, ip: 192.168.0.1 }
+	* (Expanding to the 'address=<hostname>/<ip>' line)
+
+	dnsmasq_subnet_dnsservers:
+	  - { domain: sub1.example.org, server: 192.168.1.53 }
+	  - { domain: sub2.example.org, server: 192.168.2.53 }
+	* (Expanding to the 'server=<domain>,<server>' line.)
+
+	dnsmasq_dhcp_static_addresses:
+	  - { mac: "00:00:00:00:00:00", ip: 192.168.1.10, comment: "example: device name" }
+	* (Expanding to the 'dhcp-host=<mac>,<ip>' line with a comment line)
+
+	dnsmasq_sysctl_rules:
+	  - { name: net.ipv4.ip_forward, value: 1 }
+	  - { name: net.ipv4.conf.default.rp_filter, value: 1 }
+	  - { name: net.ipv4.conf.all.rp_filter, value: 1 }
+	  - { name: net.ipv4.tcp_syncookies, value: 1 }
+	* The /etc/sysctl.conf configuration for dnsmasq.
+
+	dnsmasq_config_filepath:
+	  - { template: dnsmasq.homegw.conf.j2, dest_filepath: /etc/dnsmasq.d/homegw.conf }
+
+	dnsmasq_config_permission:
+	  owner: root
+	  group: root
+	  mode: '0644'
+	* Even if you specify multiple configuration templates, permission of all transfered files will be same value.
+
+	dnsmasq_ntpd_enabled: False
+	* If True, the 'dhcp-optio=option:ntp-server,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}' config ill be enabled.
 
 Dependencies
 ------------
