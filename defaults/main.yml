@@ -16,13 +16,13 @@ dnsmasq_external_nameservers:
   - 8.8.8.8
 
 ## Expanding to the 'address=<hostname>/<ip>' line
-dnsmasq_local_addresses:
+dnsmasq_local_addresses: []
 
 ## Expanding to the 'server=<domain>,<server>' line
-dnsmasq_subnet_dnsservers:
+dnsmasq_subnet_dnsservers: []
 
 ## Expanding to the 'dhcp-host=<mac>,<ip>' line with a comment line
-dnsmasq_dhcp_static_addresses:
+dnsmasq_dhcp_static_addresses: []
 
 ## for sysctl module setting
 dnsmasq_sysctl_rules:
