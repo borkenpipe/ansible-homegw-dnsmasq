@@ -122,6 +122,8 @@ Example Playbook
 	    dnsmasq_dhcp_static_addresses:
 	      - { mac: "00:00:00:00:00:10", ip: 192.168.1.10, comment: "device name #10" }
 	      - { mac: "00:00:00:00:00:20", ip: 192.168.1.20 }
+	  roles:
+	    - YasuhiroABE.dnsmasq-homegw
 
 License
 -------
