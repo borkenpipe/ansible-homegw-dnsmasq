@@ -1,0 +1,39 @@
+---
+- name: install essential packages for this task
+  become: True
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=1200
+  with_items:
+    - dnsmasq
+  register: result
+
+# remove the *resolvconf* package, because we have a static global address.
+- name: remove resolvhost package
+  become: True
+  apt: pkg={{ item }} state=absent
+  with_items:
+    resolvconf
+  register: result
+  
+- name: modify /etc/sysctl.conf for dnsmasq
+  become: True
+  sysctl:
+    name: "{{ items.name }}"
+    value: "{{ items.value }}"
+  with_items:
+    - "{{ dnsmasq_sysctl_rules }}"
+  register: result
+  
+- name: place dnsmasq.d config files
+  become: True
+  template:
+    src: "{{ items.template }}"
+    dest: "{{ items.dest_filepath }}"
+    owner: "{{ dnsmasq_config_permission.owner }}"
+    group: "{{ dnsmasq_config_permission.group }}"
+    mode: "{{ dnsmasq_config_permission.mode }}"
+  with_items:
+    - "{{ dnsmasq_config_filepath }}"
+  notify:
+    - restart dnsmasq
+  register: result
+  

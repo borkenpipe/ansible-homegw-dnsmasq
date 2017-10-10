@@ -1,0 +1,4 @@
+---
+- name: restart dnsmasq
+  systemd: state=restarted daemon_reload=yes name=dnsmasq
+  

@@ -1,0 +1,44 @@
+#
+# basic settings
+#
+no-resolv
+domain={{ dnsmasq_ipv4_domainname }},{{ dnsmasq_ipv4_hostprefix|ipaddr('subnet') }},local
+interface={{ dnsmasq_eth_device }}
+
+# DHCPd specific settings
+dhcp-range=tag:{{ dnsmasq_eth_device  }},{{ dnsmasq_dhcp_range['from_ipaddr'] }},{{ dnsmasq_dhcp_range['to_ipaddr'] }}
+# dns gateway router
+dhcp-option=tag:{{ dnsmasq_eth_device }},option:router,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}
+# dns server
+dhcp-option=tag:{{ dnsmasq_eth_device }},option:dns-server,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}
+{% if dnsmasq_ntpd_enabled %}
+# ntp server
+dhcp-option=tag:{{ dnsmasq_eth_device }},option:ntp-server,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}
+{% endif %}
+# dnc domain search
+dhcp-option=tag:{{ dnsmasq_eth_device }},option:domain-search,{{ dnsmasq_domain_search_list|join(',') }}
+
+# DNS server information for dhcp clients
+{% for dns in dnsmasq_external_nameservers %}
+server={{ dns }}
+{% endfor %}
+
+# local address resolution
+{% for addr in dnsmasq_local_addresses %}
+address=/{{ addr['hostname'] }}/{{ addr['hostname'] }}.{{ dnsmasq_ipv4_domainname }}/{{ addr['ip'] }}
+{% endfor %}
+
+# subnet DNS servers
+{% for dns in dnsmasq_subnet_dnsservers %}
+server=/{{ dns['domain'] }}/{{ dns['server'] }}
+{% endfor %}
+
+# dnsmasq static dhcp ip binding
+{% for dhcp in dnsmasq_dhcp_static_addresses %}
+## {{ dhcp['comment'] }}
+dhcp-host={{ dhcp['mac'] }},{{ dhcp['ip'] }}
+{% endfor %}
+
+## ipv6 specific settings ##
+dhcp-range=::,constructor:{{ dnsmasq_eth_device }},ra-stateless
+enable-ra
