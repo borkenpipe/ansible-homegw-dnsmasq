@@ -42,7 +42,7 @@ Role Variables
 Dependencies
 ------------
 
-N/A
+The 'python-netaddr' package needs to be installed on the ansible host controller.
 
 Example Playbook
 ----------------

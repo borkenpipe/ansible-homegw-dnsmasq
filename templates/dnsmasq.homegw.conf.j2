@@ -16,7 +16,7 @@ dhcp-option=tag:{{ dnsmasq_eth_device }},option:dns-server,{{ dnsmasq_ipv4_hostp
 dhcp-option=tag:{{ dnsmasq_eth_device }},option:ntp-server,{{ dnsmasq_ipv4_hostprefix|ipaddr('address') }}
 {% endif %}
 # dnc domain search
-dhcp-option=tag:{{ dnsmasq_eth_device }},option:domain-search,{{ dnsmasq_domain_search_list|join(',') }}
+dhcp-option=tag:{{ dnsmasq_eth_device }},option:domain-search,{{ dnsmasq_dhcp_domain_search_list|join(',') }}
 
 # DNS server information for dhcp clients
 {% for dns in dnsmasq_external_nameservers %}
@@ -25,7 +25,11 @@ server={{ dns }}
 
 # local address resolution
 {% for addr in dnsmasq_local_addresses %}
+{% if 'domain' in addr %}
+address=/{{ addr['hostname'] }}/{{ addr['hostname'] }}.{{ addr['domain'] }}/{{ addr['ip'] }}
+{% else %}
 address=/{{ addr['hostname'] }}/{{ addr['hostname'] }}.{{ dnsmasq_ipv4_domainname }}/{{ addr['ip'] }}
+{% endif %}
 {% endfor %}
 
 # subnet DNS servers
@@ -35,7 +39,9 @@ server=/{{ dns['domain'] }}/{{ dns['server'] }}
 
 # dnsmasq static dhcp ip binding
 {% for dhcp in dnsmasq_dhcp_static_addresses %}
+{% if 'comment' in dhcp %}
 ## {{ dhcp['comment'] }}
+{% endif %}
 dhcp-host={{ dhcp['mac'] }},{{ dhcp['ip'] }}
 {% endfor %}
 

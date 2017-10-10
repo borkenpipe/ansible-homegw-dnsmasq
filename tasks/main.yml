@@ -17,8 +17,8 @@
 - name: modify /etc/sysctl.conf for dnsmasq
   become: True
   sysctl:
-    name: "{{ items.name }}"
-    value: "{{ items.value }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
   with_items:
     - "{{ dnsmasq_sysctl_rules }}"
   register: result
@@ -26,8 +26,8 @@
 - name: place dnsmasq.d config files
   become: True
   template:
-    src: "{{ items.template }}"
-    dest: "{{ items.dest_filepath }}"
+    src: "{{ item.template }}"
+    dest: "{{ item.dest_filepath }}"
     owner: "{{ dnsmasq_config_permission.owner }}"
     group: "{{ dnsmasq_config_permission.group }}"
     mode: "{{ dnsmasq_config_permission.mode }}"

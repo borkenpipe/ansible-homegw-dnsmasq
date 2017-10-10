@@ -5,7 +5,7 @@ dnsmasq_eth_device: "br0"
 dnsmasq_ipv4_hostprefix: 192.168.0.1/24
 dnsmasq_ipv4_domainname: example.org
 dnsmasq_dhcp_domain_search_list:
-  - {{ dnsmasq_ipv4_domainname }}
+  - "{{ dnsmasq_ipv4_domainname }}"
   
 dnsmasq_dhcp_range:
   from_ipaddr: 192.168.0.200
@@ -26,10 +26,10 @@ dnsmasq_subnet_dnsservers:
 
 ## Expanding to the 'dhcp-host=<mac>,<ip>' line with a comment line
 dnsmasq_dhcp_static_addresses:
-  - { mac: 00:00:00:00:00:00, ip: 192.168.1.10, comment: "example: device name" }
+  - { mac: "00:00:00:00:00:00", ip: 192.168.1.10, comment: "example: device name" }
 
 ## for sysctl module setting
-dnsmasq_systl_rules:
+dnsmasq_sysctl_rules:
   - { name: net.ipv4.ip_forward, value: 1 }
   - { name: net.ipv4.conf.default.rp_filter, value: 1 }
   - { name: net.ipv4.conf.all.rp_filter, value: 1 }
@@ -41,7 +41,7 @@ dnsmasq_config_filepath:
 dnsmasq_config_permission:
   owner: root
   group: root
-  mode: 0644
+  mode: '0644'
 
 ## If True, the 'dhcp-optio=option:ntp-server' config ill be enabled.
 dnsmasq_ntpd_enabled: False
