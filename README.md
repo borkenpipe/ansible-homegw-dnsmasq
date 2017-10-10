@@ -59,18 +59,18 @@ Role Variables
 	  - 8.8.8.8
 	* This value used for the dnsmasq to resolve DNS request.
 
-	dnsmasq_local_addresses:
-	  - { hostname: homegw, ip: 192.168.0.1 }
-	* (Expanding to the 'address=<hostname>/<ip>' line)
+	dnsmasq_local_addresses: []
+	* Example: "{ hostname: nas, ip: 192.168.0.5 }"
+	(Expanding to the 'address=<hostname>/<ip>' line)
 
-	dnsmasq_subnet_dnsservers:
-	  - { domain: sub1.example.org, server: 192.168.1.53 }
-	  - { domain: sub2.example.org, server: 192.168.2.53 }
-	* (Expanding to the 'server=<domain>,<server>' line.)
+	dnsmasq_subnet_dnsservers: []
+	* Example: "{ domain: subnet1.example.org, server: 192.168.1.53 }"
+	(Expanding to the 'server=<domain>,<server>' line.)
 
-	dnsmasq_dhcp_static_addresses:
-	  - { mac: "00:00:00:00:00:00", ip: 192.168.1.10, comment: "example: device name" }
-	* (Expanding to the 'dhcp-host=<mac>,<ip>' line with a comment line)
+	dnsmasq_dhcp_static_addresses: []
+	* Example: "{ mac: '00:00:00:00:00:00', ip: 192.168.0.5 }"
+      or       "{ mac: '00:00:00:00:00:00', ip: 192.168.0.5, comment: "example setting" }"
+	(Expanding to the 'dhcp-host=<mac>,<ip>' line with a comment line)
 
 	dnsmasq_sysctl_rules:
 	  - { name: net.ipv4.ip_forward, value: 1 }
