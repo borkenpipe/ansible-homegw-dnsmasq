@@ -33,7 +33,5 @@
     mode: "{{ dnsmasq_config_permission.mode }}"
   with_items:
     - "{{ dnsmasq_config_filepath }}"
-  notify:
-    - restart dnsmasq
   register: result
   
