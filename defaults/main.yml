@@ -1,9 +1,9 @@
 ---
 # defaults file for dnsmasq-homegw
 
-dnsmasq_eth_device: "br0"
+dnsmasq_eth_device: "internal"
 dnsmasq_ipv4_hostprefix: 192.168.0.1/24
-dnsmasq_ipv4_domainname: example.org
+dnsmasq_ipv4_domainname: subspace.lan
 dnsmasq_dhcp_domain_search_list:
   - "{{ dnsmasq_ipv4_domainname }}"
   
@@ -13,7 +13,7 @@ dnsmasq_dhcp_range:
 
 ## External DNS servers to resolve port=53 related requests.
 dnsmasq_external_nameservers:
-  - 8.8.8.8
+  - 9.9.9.9
 
 ## Expanding to the 'address=<hostname>/<ip>' line
 dnsmasq_local_addresses: []
